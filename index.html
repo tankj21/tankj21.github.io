@@ -3,195 +3,376 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tankj21's Portfolio</title>
+    <title>tankj21 | Portfolio</title>
     
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Inter Font from Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --accent: #a855f7;
+        }
+        body {
+            font-family: 'Space Grotesk', 'Noto Sans JP', sans-serif;
+            background-color: #030712;
+            overflow-x: hidden;
+        }
+
+        /* カスタムアニメーション定義 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .reveal { opacity: 0; }
+        .reveal.active { animation: reveal 0.8s ease-out forwards; }
+
+        /* 背景のキャンバス */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+        }
+
+        /* ガラスモルフィズム */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* グラデーションテキスト */
+        .text-gradient {
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* プロジェクトカードのホバーエフェクト */
+        .project-card:hover .project-image {
+            transform: scale(1.1) rotate(2deg);
+        }
+    </style>
 </head>
-<body class="bg-gray-900 text-gray-100 antialiased">
+<body class="text-gray-100">
 
-    <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 bg-gray-900 bg-opacity-80 backdrop-blur-md z-50 shadow-md">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-white hover:text-indigo-400 transition-colors duration-300">
-                tankj21
-            </a>
-            <div class="flex space-x-4 md:space-x-6">
-                <a href="#about" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">About</a>
-                <a href="#projects" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Projects</a>
-                <a href="#contact" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Contact</a>
+    <!-- 背景パーティクル -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- ナビゲーション -->
+    <nav class="fixed top-0 w-full z-50 glass py-4 transition-all duration-500" id="navbar">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-tighter text-gradient">tankj21.dev</div>
+            <div class="hidden md:flex space-x-8 font-medium">
+                <a href="#home" class="hover:text-indigo-400 transition-colors">Home</a>
+                <a href="#about" class="hover:text-indigo-400 transition-colors">About</a>
+                <a href="#projects" class="hover:text-indigo-400 transition-colors">Projects</a>
+                <a href="#contact" class="hover:text-indigo-400 transition-colors">Contact</a>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 pt-24 md:pt-32">
-
-        <!-- Hero Section -->
-        <section id="hero" class="min-h-[70vh] flex flex-col justify-center items-center text-center">
-            <img class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-indigo-500 shadow-xl mb-6" 
-                 src="https://avatars.githubusercontent.com/u/69007235?v=4" 
-                 alt="tankj21's profile picture"
-                 onerror="this.onerror=null; this.src='https://placehold.co/160x160/4F46E5/FFFFFF?text=tankj21';">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4">
-                こんにちは tankj21です。
-            </h1>
-            <p class="text-xl md:text-2xl text-gray-300 max-w-2xl">
-                <!-- あなたの肩書やキャッチコピーをここに入力 -->
-                I'm student at International Professional University of Technology in Tokyo.
-            </p>
-            <a href="#projects" class="mt-8 px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105">
-                See the project!!
-            </a>
-        </section>
-
-        <!-- About Me Section -->
-        <section id="about" class="py-20 md:py-32">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">
-                私について (About Me)
-            </h2>
-            <div class="max-w-3xl mx-auto bg-gray-800 rounded-2xl shadow-xl p-8 md:p-10">
-                <p class="text-lg text-gray-300 leading-relaxed mb-6">
-                    <!-- あなたの自己紹介をここに入力 -->
-                    東京国際工科専門職大学 学生 AI戦略コース 在籍中<br><br>
-                    気分で開発することが多いです。
+    <!-- ヒーローセクション -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="order-2 md:order-1">
+                <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6">
+                    Creative <br>
+                    <span class="text-gradient" id="typewriter">Developer</span>
+                </h1>
+                <p class="text-gray-400 text-lg md:text-xl mb-8 max-w-lg">
+                    最新のテクノロジーとデザインを融合させ、ユーザーの記憶に残るデジタル体験を構築します。
                 </p>
-                <p class="text-lg text-gray-300 leading-relaxed">
-                    <!---予備=-->
+                <div class="flex space-x-4">
+                    <a href="#projects" class="px-8 py-3 bg-indigo-600 rounded-full font-bold hover:bg-indigo-500 transition-all transform hover:-translate-y-1 shadow-lg shadow-indigo-500/20">
+                        View Work
+                    </a>
+                    <a href="#contact" class="px-8 py-3 border border-gray-700 rounded-full font-bold hover:bg-white/5 transition-all">
+                        Let's Talk
+                    </a>
+                </div>
+            </div>
+            <div class="order-1 md:order-2 flex justify-center">
+                <div class="relative w-64 h-64 md:w-80 md:h-80 animate-float">
+                    <div class="absolute inset-0 bg-indigo-500 rounded-3xl rotate-6 opacity-20 blur-2xl"></div>
+                    <img src="https://placehold.co/400x400/1e293b/white?text=TJ" alt="tankj21" class="relative z-10 w-full h-full object-cover rounded-3xl border border-white/10 glass">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 自己紹介 -->
+    <section id="about" class="py-32">
+        <div class="container mx-auto px-6">
+            <div class="reveal max-w-4xl mx-auto glass p-8 md:p-16 rounded-[2rem]">
+                <h2 class="text-3xl font-bold mb-8 flex items-center">
+                    <span class="w-10 h-1 h-px bg-indigo-500 mr-4"></span>
+                    About Me
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="text-gray-300 space-y-4">
+                        <p>こんにちは！tankj21です。私は細部までこだわったUI/UXと、パフォーマンスに優れたフロントエンド開発を得意としています。</p>
+                        <p>コードを書くだけでなく、ユーザーにとって何が最適かを常に考え、解決策を提案することを大切にしています。</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">Core Skills</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-4 py-2 glass rounded-lg text-sm border border-indigo-500/30">React / Next.js</span>
+                            <span class="px-4 py-2 glass rounded-lg text-sm border border-purple-500/30">TypeScript</span>
+                            <span class="px-4 py-2 glass rounded-lg text-sm border border-blue-500/30">Tailwind CSS</span>
+                            <span class="px-4 py-2 glass rounded-lg text-sm border border-pink-500/30">Three.js</span>
+                            <span class="px-4 py-2 glass rounded-lg text-sm border border-yellow-500/30">Node.js</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- プロジェクト一覧 -->
+    <section id="projects" class="py-32 bg-white/0">
+        <div class="container mx-auto px-6 text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4">Selected Projects</h2>
+            <p class="text-gray-400">これまでに制作した代表的なプロジェクトの一部です。</p>
+        </div>
+        
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project Card 1 -->
+            <div class="reveal project-card group relative overflow-hidden rounded-3xl glass transition-all hover:border-indigo-500/50">
+                <div class="aspect-video overflow-hidden">
+                    <img src="https://placehold.co/600x400/111827/white?text=Crypto+Dashboard" class="project-image w-full h-full object-cover transition-transform duration-700">
+                </div>
+                <div class="p-8">
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">Web App</span>
+                    <h3 class="text-2xl font-bold mt-2 mb-4">Crypto Dashboard</h3>
+                    <p class="text-gray-400 mb-6">リアルタイムの仮想通貨データを可視化するダッシュボードアプリ。</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex space-x-2">
+                            <span class="text-xs text-gray-500">React</span>
+                            <span class="text-xs text-gray-500">D3.js</span>
+                        </div>
+                        <a href="#" class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Card 2 -->
+            <div class="reveal project-card group relative overflow-hidden rounded-3xl glass transition-all delay-100 hover:border-indigo-500/50" style="transition-delay: 0.1s">
+                <div class="aspect-video overflow-hidden">
+                    <img src="https://placehold.co/600x400/111827/white?text=Minimal+Store" class="project-image w-full h-full object-cover transition-transform duration-700">
+                </div>
+                <div class="p-8">
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">E-Commerce</span>
+                    <h3 class="text-2xl font-bold mt-2 mb-4">Minimal Store</h3>
+                    <p class="text-gray-400 mb-6">ヘッドレスCMSを利用した超高速なECサイト構築プロジェクト。</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex space-x-2">
+                            <span class="text-xs text-gray-500">Next.js</span>
+                            <span class="text-xs text-gray-500">Stripe</span>
+                        </div>
+                        <a href="#" class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Card 3 -->
+            <div class="reveal project-card group relative overflow-hidden rounded-3xl glass transition-all delay-200 hover:border-indigo-500/50" style="transition-delay: 0.2s">
+                <div class="aspect-video overflow-hidden">
+                    <img src="https://placehold.co/600x400/111827/white?text=AI+Vision" class="project-image w-full h-full object-cover transition-transform duration-700">
+                </div>
+                <div class="p-8">
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">AI / Design</span>
+                    <h3 class="text-2xl font-bold mt-2 mb-4">AI Vision</h3>
+                    <p class="text-gray-400 mb-6">AIを活用した画像解析とデザインの自動生成ツール。</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex space-x-2">
+                            <span class="text-xs text-gray-500">Python</span>
+                            <span class="text-xs text-gray-500">OpenCV</span>
+                        </div>
+                        <a href="#" class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- お問い合わせ -->
+    <section id="contact" class="py-32">
+        <div class="container mx-auto px-6 text-center">
+            <div class="reveal max-w-2xl mx-auto py-16 px-8 rounded-[3rem] glass border border-white/10">
+                <h2 class="text-4xl font-bold mb-4">Let's work together</h2>
+                <p class="text-gray-400 mb-10">
+                    素晴らしいアイデアを形にしましょう。お気軽にメッセージをください！
                 </p>
-                
-                <!-- 技術スタック -->
-                <div class="mt-8">
-                    <h3 class="text-xl font-semibold mb-4 text-white">My Tech Stack:</h3>
-                    <div class="flex flex-wrap gap-3">
-                        <!-- 例: https://shields.io/ を使うか、テキストでリストします -->
-                         <span class="bg-orange-400 text-white text-sm font-medium px-3 py-1 rounded-full">Java</span>
-                        <span class="bg-indigo-500 text-white text-sm font-medium px-3 py-1 rounded-full">JavaScript</span>
-                        <span class="bg-blue-500 text-white text-sm font-medium px-3 py-1 rounded-full">C / C++ / C#</span>
-                        <span class="bg-sky-400 text-white text-sm font-medium px-3 py-1 rounded-full">Python</span>
-                        <span class="bg-green-500 text-white text-sm font-medium px-3 py-1 rounded-full">Node.js</span>
-                        <span class="bg-gray-700 text-white text-sm font-medium px-3 py-1 rounded-full">HTML5</span>
-                        <span class="bg-gray-700 text-white text-sm font-medium px-3 py-1 rounded-full">CSS3</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="py-20 md:py-32">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">
-                プロジェクト (Projects)
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <!-- Project Card 1 (Template) -->
-                <div class="bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                    <img class="w-full h-48 object-cover" 
-                         src="https://placehold.co/600x400/374151/FFFFFF?text=No+Image" 
-                         alt="Project 1 Screenshot"
-                         onerror="this.onerror=null; this.src='https://placehold.co/600x400/374151/FFFFFF?text=No+Image';">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-3 text-white">Noctis</h3>
-                        <p class="text-gray-300 mb-4">
-                            <!-- プロジェクトの簡単な説明 -->
-                            PythonでのDiscordBot開発。<br>公開してません。
-                        </p>
-                        <div class="flex gap-4">
-                            <a href="https://github.com/tankj21/Noctis" class="text-gray-400 hover:text-gray-200 font-medium transition-colors duration-300">GitHub</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project Card 2 (Template) -->
-                <div class="bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                    <img class="w-full h-48 object-cover bg-orange-100" 
-                         src="https://github.com/tankj21/kabukicho/blob/main/source/img/kabuki_title.png?raw=true" 
-                         alt="Project 2 Screenshot"
-                         onerror="this.onerror=null; this.src='https://placehold.co/600x400/374151/FFFFFF?text=Project+2';">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-3 text-white">歌舞伎町ガイドアプリ</h3>
-                        <p class="text-gray-300 mb-4">
-                            <br>大学の授業の一環で作成したもの。
-                        </p>
-                        <div class="flex gap-4">
-                            <a href="https://github.com/tankj21/kabukicho" class="text-gray-400 hover:text-gray-200 font-medium transition-colors duration-300">GitHub</a>
-                            <a href="https://tankj21.github.io/kabukicho" class="text-gray-400 hover:text-gray-200 font-medium transition-colors duration-300">Site</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project Card 3 (Template) -->
-                <div class="bg-gray-800 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                    <img class="w-full h-48 object-cover" 
-                         src="https://placehold.co/600x400/374151/FFFFFF?text=Project+3" 
-                         alt="Project 3 Screenshot"
-                         onerror="this.onerror=null; this.src='https://placehold.co/600x400/374151/FFFFFF?text=Project+3';">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-3 text-white">プロジェクト名 3</h3>
-                        <p class="text-gray-300 mb-4">
-                            ここにプロジェクトの簡単な説明文を入れます。使用した技術や目的など。
-                        </p>
-                        <div class="flex gap-4">
-                            <a href="#" class="text-indigo-400 hover:text-indigo-300 font-medium transition-colors duration-300">Live Demo</a>
-                            <a href="#" class="text-gray-400 hover:text-gray-200 font-medium transition-colors duration-300">GitHub</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="py-20 md:py-32 text-center">
-            <h2 class="text-3xl md:text-4xl font-bold mb-6">
-                繋がりましょう (Get In Touch)
-            </h2>
-            <p class="text-lg text-gray-300 max-w-lg mx-auto mb-8">
-                お仕事の依頼、技術的なディスカッション、または単なる挨拶でも、お気軽にご連絡ください。
-            </p>
-            <a href="mailto:your-email@example.com" class="inline-block px-8 py-4 bg-indigo-600 text-white font-medium rounded-lg shadow-md hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105">
-                Email Me
-            </a>
-            
-            <!-- Social Links -->
-            <div class="flex justify-center space-x-8 mt-12">
-                <!-- GitHub -->
-                <a href="https://github.com/tankj21" target="_blank" rel="noopener noreferrer" title="GitHub" class="text-gray-400 hover:text-indigo-400 transition-colors duration-300">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
-                    </svg>
+                <a href="mailto:tankj21@example.com" class="text-2xl font-bold text-gradient hover:opacity-80 transition-opacity underline decoration-indigo-500 underline-offset-8">
+                    tankj21@example.com
                 </a>
                 
-                <!-- Twitter (X) -->
-                <a href="https://twitter.com/[your_handle]" target="_blank" rel="noopener noreferrer" title="Twitter" class="text-gray-400 hover:text-indigo-400 transition-colors duration-300">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                    </svg>
-                </a>
-                
-                <!-- LinkedIn -->
-                <a href="https://linkedin.com/in/[your_profile]" target="_blank" rel="noopener noreferrer" title="LinkedIn" class="text-gray-400 hover:text-indigo-400 transition-colors duration-300">
-                     <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                    </svg>
-                </a>
+                <div class="mt-12 flex justify-center space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Github</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">X (Twitter)</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">LinkedIn</a>
+                </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <!-- Footer -->
-    <footer class="border-t border-gray-800 mt-20">
-        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
-            <p>&copy; 2025 tankj21. All rights reserved.</p>
-            <p class="text-sm mt-1">Made with ❤️ and Tailwind CSS.</p>
+    <!-- フッター -->
+    <footer class="py-12 border-t border-white/5">
+        <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
+            &copy; 2025 tankj21. Crafted with passion.
         </div>
     </footer>
 
+    <script>
+        // --- パーティクルアニメーション ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(99, 102, 241, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initParticles();
+        });
+
+        // --- スクロール・リビール ---
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        // --- 初期化処理 ---
+        window.onload = () => {
+            resize();
+            initParticles();
+            animate();
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // ナビゲーションの挙動
+            window.addEventListener('scroll', () => {
+                const nav = document.getElementById('navbar');
+                if (window.scrollY > 50) {
+                    nav.classList.add('py-2', 'shadow-2xl');
+                } else {
+                    nav.classList.remove('py-2', 'shadow-2xl');
+                }
+            });
+
+            // タイピング効果（簡易版）
+            const phrases = ["Developer", "Designer", "Innovator"];
+            let i = 0;
+            let j = 0;
+            let currentPhrase = [];
+            let isDeleting = false;
+            let isEnd = false;
+            const target = document.getElementById('typewriter');
+
+            function loop() {
+                isEnd = false;
+                if (i < phrases.length) {
+                    if (!isDeleting && j <= phrases[i].length) {
+                        currentPhrase.push(phrases[i][j]);
+                        j++;
+                    }
+                    if (isDeleting && j <= phrases[i].length) {
+                        currentPhrase.pop(phrases[i][j]);
+                        j--;
+                    }
+                    if (j == phrases[i].length) {
+                        isEnd = true;
+                        isDeleting = true;
+                    }
+                    if (isDeleting && j == 0) {
+                        currentPhrase = [];
+                        isDeleting = false;
+                        i++;
+                        if (i == phrases.length) i = 0;
+                    }
+                }
+                target.innerHTML = currentPhrase.join("");
+                const speed = isEnd ? 2000 : isDeleting ? 100 : 200;
+                setTimeout(loop, speed);
+            }
+            loop();
+        };
+    </script>
 </body>
 </html>
