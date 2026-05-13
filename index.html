@@ -196,86 +196,13 @@
             <p class="text-gray-400">これまでに制作した代表的なプロジェクトの一部です。</p>
         </div>
 
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Project Card 1 -->
-            <div
-                class="reveal project-card group relative overflow-hidden rounded-3xl glass transition-all hover:border-indigo-500/50">
-                <div class="aspect-video overflow-hidden">
-                    <img src="https://placehold.co/600x400/111827/white?text=Crypto+Dashboard"
-                        class="project-image w-full h-full object-cover transition-transform duration-700">
-                </div>
-                <div class="p-8">
-                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">Web App</span>
-                    <h3 class="text-2xl font-bold mt-2 mb-4">Crypto Dashboard</h3>
-                    <p class="text-gray-400 mb-6">リアルタイムの仮想通貨データを可視化するダッシュボードアプリ。</p>
-                    <div class="flex justify-between items-center">
-                        <div class="flex space-x-2">
-                            <span class="text-xs text-gray-500">React</span>
-                            <span class="text-xs text-gray-500">D3.js</span>
-                        </div>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-indigo-600 transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project Card 2 -->
-            <div class="reveal project-card group relative overflow-hidden rounded-3xl glass transition-all delay-100 hover:border-indigo-500/50"
-                style="transition-delay: 0.1s">
-                <div class="aspect-video overflow-hidden">
-                    <img src="https://placehold.co/600x400/111827/white?text=Minimal+Store"
-                        class="project-image w-full h-full object-cover transition-transform duration-700">
-                </div>
-                <div class="p-8">
-                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">E-Commerce</span>
-                    <h3 class="text-2xl font-bold mt-2 mb-4">Minimal Store</h3>
-                    <p class="text-gray-400 mb-6">ヘッドレスCMSを利用した超高速なECサイト構築プロジェクト。</p>
-                    <div class="flex justify-between items-center">
-                        <div class="flex space-x-2">
-                            <span class="text-xs text-gray-500">Next.js</span>
-                            <span class="text-xs text-gray-500">Stripe</span>
-                        </div>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-indigo-600 transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project Card 3 -->
-            <div class="reveal project-card group relative overflow-hidden rounded-3xl glass transition-all delay-200 hover:border-indigo-500/50"
-                style="transition-delay: 0.2s">
-                <div class="aspect-video overflow-hidden">
-                    <img src="https://placehold.co/600x400/111827/white?text=AI+Vision"
-                        class="project-image w-full h-full object-cover transition-transform duration-700">
-                </div>
-                <div class="p-8">
-                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">AI / Design</span>
-                    <h3 class="text-2xl font-bold mt-2 mb-4">AI Vision</h3>
-                    <p class="text-gray-400 mb-6">AIを活用した画像解析とデザインの自動生成ツール。</p>
-                    <div class="flex justify-between items-center">
-                        <div class="flex space-x-2">
-                            <span class="text-xs text-gray-500">Python</span>
-                            <span class="text-xs text-gray-500">OpenCV</span>
-                        </div>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-indigo-600 transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+        <div id="github-projects" class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="col-span-full text-center text-gray-400 py-10">
+                <svg class="animate-spin h-8 w-8 mx-auto mb-4 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                GitHubからプロジェクトを読み込んでいます...
             </div>
         </div>
     </section>
@@ -379,11 +306,83 @@
             });
         }, observerOptions);
 
+        async function fetchGitHubProjects() {
+            const username = 'tankj21';
+            const container = document.getElementById('github-projects');
+            
+            const customImages = {
+                'kabukicho': 'https://github.com/tankj21/kabukicho/blob/main/source/img/kabuki_title.png?raw=true'
+            };
+
+            const extraProjects = [
+                {
+                    name: 'Noctis',
+                    description: 'PythonでのDiscordBot開発。<br>公開してません。',
+                    html_url: 'https://github.com/tankj21/Noctis',
+                    language: 'Python',
+                    stargazers_count: 0,
+                    isPrivate: true
+                }
+            ];
+            
+            try {
+                const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                let repos = await response.json();
+                repos = repos.filter(repo => !repo.fork);
+                
+                container.innerHTML = '';
+                const allProjects = [...extraProjects, ...repos];
+                
+                allProjects.forEach((repo, index) => {
+                    const imageUrl = customImages[repo.name] || `https://placehold.co/600x400/111827/6366f1?text=${encodeURIComponent(repo.name)}`;
+                    const desc = repo.description || '説明がありません。';
+                    const delay = index * 0.1;
+                    
+                    const card = `
+                        <div class="reveal project-card group relative overflow-hidden rounded-3xl glass transition-all hover:border-indigo-500/50 flex flex-col" style="transition-delay: ${delay}s">
+                            <div class="aspect-video overflow-hidden">
+                                <img src="${imageUrl}" class="project-image w-full h-full object-cover transition-transform duration-700" onerror="this.onerror=null; this.src='https://placehold.co/600x400/111827/6366f1?text=${encodeURIComponent(repo.name)}';">
+                            </div>
+                            <div class="p-8 flex flex-col flex-grow">
+                                <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">${repo.language || 'Project'}</span>
+                                <h3 class="text-2xl font-bold mt-2 mb-4 truncate" title="${repo.name}">${repo.name}</h3>
+                                <p class="text-gray-400 mb-6 flex-grow">${desc}</p>
+                                <div class="flex justify-between items-center mt-auto">
+                                    <div class="flex space-x-2">
+                                        ${!repo.isPrivate ? `<span class="text-xs text-gray-500 flex items-center"><svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>${repo.stargazers_count}</span>` : ''}
+                                    </div>
+                                    <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', card);
+                });
+
+                if(allProjects.length === 0) {
+                     container.innerHTML = '<p class="text-gray-400 col-span-full text-center">公開されているリポジトリがありません。</p>';
+                }
+                
+                // Add observers to newly added cards
+                document.querySelectorAll('#github-projects .reveal').forEach(el => observer.observe(el));
+                
+            } catch (error) {
+                console.error('Error fetching GitHub projects:', error);
+                container.innerHTML = '<p class="text-red-400 col-span-full text-center">プロジェクトの読み込みに失敗しました。</p>';
+            }
+        }
+
         // --- 初期化処理 ---
         window.onload = () => {
             resize();
             initParticles();
             animate();
+            fetchGitHubProjects();
 
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
