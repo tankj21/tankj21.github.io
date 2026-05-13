@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tankj21 | Portfolio</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --accent: #a855f7;
+        }
+
+        body {
+            font-family: 'Space Grotesk', 'Noto Sans JP', sans-serif;
+            background-color: #030712;
+            overflow-x: hidden;
+        }
+
+        /* カスタムアニメーション定義 */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .reveal {
+            opacity: 0;
+        }
+
+        .reveal.active {
+            animation: reveal 0.8s ease-out forwards;
+        }
+
+        /* 背景のキャンバス */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+        }
+
+        /* ガラスモルフィズム */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* グラデーションテキスト */
+        .text-gradient {
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* プロジェクトカードのホバーエフェクト */
+        .project-card:hover .project-image {
+            transform: scale(1.1) rotate(2deg);
+        }
+    </style>
+</head>
+
+<body class="text-gray-100">
+
+    <!-- 背景パーティクル -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- ナビゲーション -->
+    <nav class="fixed top-0 w-full z-50 glass py-4 transition-all duration-500" id="navbar">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-tighter text-gradient">tankj21.dev</div>
+            <div class="hidden md:flex space-x-8 font-medium">
+                <a href="#home" class="hover:text-indigo-400 transition-colors">Home</a>
+                <a href="#about" class="hover:text-indigo-400 transition-colors">About</a>
+                <a href="#projects" class="hover:text-indigo-400 transition-colors">Projects</a>
+                <a href="#contact" class="hover:text-indigo-400 transition-colors">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ヒーローセクション -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="order-2 md:order-1">
+                <h1 class="text-5xl md:text-7xl font-bold leading-tight mb-6">
+                    Creative <br>
+                    <span class="text-gradient" id="typewriter">Developer</span>
+                </h1>
+                <p class="text-gray-400 text-lg md:text-xl mb-8 max-w-lg">
+                    最新のテクノロジーとデザインを融合させ、ユーザーの記憶に残るデジタル体験を構築します。
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#projects"
+                        class="px-8 py-3 bg-indigo-600 rounded-full font-bold hover:bg-indigo-500 transition-all transform hover:-translate-y-1 shadow-lg shadow-indigo-500/20">
+                        View Work
+                    </a>
+                    <a href="#contact"
+                        class="px-8 py-3 border border-gray-700 rounded-full font-bold hover:bg-white/5 transition-all">
+                        Let's Talk
+                    </a>
+                </div>
+            </div>
+            <div class="order-1 md:order-2 flex justify-center">
+                <div class="relative w-64 h-64 md:w-80 md:h-80 animate-float">
+                    <div class="absolute inset-0 bg-indigo-500 rounded-3xl rotate-6 opacity-20 blur-2xl"></div>
+                    <img src="https://placehold.co/400x400/1e293b/white?text=TJ" alt="tankj21"
+                        class="relative z-10 w-full h-full object-cover rounded-3xl border border-white/10 glass">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 自己紹介 -->
+    <section id="about" class="py-32">
+        <div class="container mx-auto px-6">
+            <div class="reveal max-w-4xl mx-auto glass p-8 md:p-16 rounded-[2rem]">
+                <h2 class="text-3xl font-bold mb-8 flex items-center">
+                    <span class="w-10 h-1 h-px bg-indigo-500 mr-4"></span>
+                    About Me
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="text-gray-300 space-y-4">
+                        <p>こんにちは！tankj21です。私は細部までこだわったUI/UXと、パフォーマンスに優れたフロントエンド開発を得意としています。</p>
+                        <p>コードを書くだけでなく、ユーザーにとって何が最適かを常に考え、解決策を提案することを大切にしています。</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">Core Skills</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-4 py-2 glass rounded-lg text-sm border border-indigo-500/30">React /
+                                Next.js</span>
+                            <span
+                                class="px-4 py-2 glass rounded-lg text-sm border border-purple-500/30">TypeScript</span>
+                            <span class="px-4 py-2 glass rounded-lg text-sm border border-blue-500/30">Tailwind
+                                CSS</span>
+                            <span class="px-4 py-2 glass rounded-lg text-sm border border-pink-500/30">Three.js</span>
+                            <span class="px-4 py-2 glass rounded-lg text-sm border border-yellow-500/30">Node.js</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- プロジェクト一覧 -->
+    <section id="projects" class="py-32 bg-white/0">
+        <div class="container mx-auto px-6 text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4">Selected Projects</h2>
+            <p class="text-gray-400">これまでに制作した代表的なプロジェクトの一部です。</p>
+        </div>
+
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Project Card 1 -->
+            <div
+                class="reveal project-card group relative overflow-hidden rounded-3xl glass transition-all hover:border-indigo-500/50">
+                <div class="aspect-video overflow-hidden">
+                    <img src="https://placehold.co/600x400/111827/white?text=Crypto+Dashboard"
+                        class="project-image w-full h-full object-cover transition-transform duration-700">
+                </div>
+                <div class="p-8">
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">Web App</span>
+                    <h3 class="text-2xl font-bold mt-2 mb-4">Crypto Dashboard</h3>
+                    <p class="text-gray-400 mb-6">リアルタイムの仮想通貨データを可視化するダッシュボードアプリ。</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex space-x-2">
+                            <span class="text-xs text-gray-500">React</span>
+                            <span class="text-xs text-gray-500">D3.js</span>
+                        </div>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Card 2 -->
+            <div class="reveal project-card group relative overflow-hidden rounded-3xl glass transition-all delay-100 hover:border-indigo-500/50"
+                style="transition-delay: 0.1s">
+                <div class="aspect-video overflow-hidden">
+                    <img src="https://placehold.co/600x400/111827/white?text=Minimal+Store"
+                        class="project-image w-full h-full object-cover transition-transform duration-700">
+                </div>
+                <div class="p-8">
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">E-Commerce</span>
+                    <h3 class="text-2xl font-bold mt-2 mb-4">Minimal Store</h3>
+                    <p class="text-gray-400 mb-6">ヘッドレスCMSを利用した超高速なECサイト構築プロジェクト。</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex space-x-2">
+                            <span class="text-xs text-gray-500">Next.js</span>
+                            <span class="text-xs text-gray-500">Stripe</span>
+                        </div>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Card 3 -->
+            <div class="reveal project-card group relative overflow-hidden rounded-3xl glass transition-all delay-200 hover:border-indigo-500/50"
+                style="transition-delay: 0.2s">
+                <div class="aspect-video overflow-hidden">
+                    <img src="https://placehold.co/600x400/111827/white?text=AI+Vision"
+                        class="project-image w-full h-full object-cover transition-transform duration-700">
+                </div>
+                <div class="p-8">
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">AI / Design</span>
+                    <h3 class="text-2xl font-bold mt-2 mb-4">AI Vision</h3>
+                    <p class="text-gray-400 mb-6">AIを活用した画像解析とデザインの自動生成ツール。</p>
+                    <div class="flex justify-between items-center">
+                        <div class="flex space-x-2">
+                            <span class="text-xs text-gray-500">Python</span>
+                            <span class="text-xs text-gray-500">OpenCV</span>
+                        </div>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-indigo-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- お問い合わせ -->
+    <section id="contact" class="py-32">
+        <div class="container mx-auto px-6 text-center">
+            <div class="reveal max-w-2xl mx-auto py-16 px-8 rounded-[3rem] glass border border-white/10">
+                <h2 class="text-4xl font-bold mb-4">Let's work together</h2>
+                <p class="text-gray-400 mb-10">
+                    素晴らしいアイデアを形にしましょう。お気軽にメッセージをください！
+                </p>
+                <a href="mailto:tankj21@example.com"
+                    class="text-2xl font-bold text-gradient hover:opacity-80 transition-opacity underline decoration-indigo-500 underline-offset-8">
+                    tankj21@example.com
+                </a>
+
+                <div class="mt-12 flex justify-center space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Github</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">X (Twitter)</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer class="py-12 border-t border-white/5">
+        <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
+            &copy; 2025 tankj21. Crafted with passion.
+        </div>
+    </footer>
+
+    <script>
+        // --- パーティクルアニメーション ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(99, 102, 241, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            resize();
+            initParticles();
+        });
+
+        // --- スクロール・リビール ---
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        // --- 初期化処理 ---
+        window.onload = () => {
+            resize();
+            initParticles();
+            animate();
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // ナビゲーションの挙動
+            window.addEventListener('scroll', () => {
+                const nav = document.getElementById('navbar');
+                if (window.scrollY > 50) {
+                    nav.classList.add('py-2', 'shadow-2xl');
+                } else {
+                    nav.classList.remove('py-2', 'shadow-2xl');
+                }
+            });
+
+            // タイピング効果（簡易版）
+            const phrases = ["Developer", "Designer", "Innovator"];
+            let i = 0;
+            let j = 0;
+            let currentPhrase = [];
+            let isDeleting = false;
+            let isEnd = false;
+            const target = document.getElementById('typewriter');
+
+            function loop() {
+                isEnd = false;
+                if (i < phrases.length) {
+                    if (!isDeleting && j <= phrases[i].length) {
+                        currentPhrase.push(phrases[i][j]);
+                        j++;
+                    }
+                    if (isDeleting && j <= phrases[i].length) {
+                        currentPhrase.pop(phrases[i][j]);
+                        j--;
+                    }
+                    if (j == phrases[i].length) {
+                        isEnd = true;
+                        isDeleting = true;
+                    }
+                    if (isDeleting && j == 0) {
+                        currentPhrase = [];
+                        isDeleting = false;
+                        i++;
+                        if (i == phrases.length) i = 0;
+                    }
+                }
+                target.innerHTML = currentPhrase.join("");
+                const speed = isEnd ? 2000 : isDeleting ? 100 : 200;
+                setTimeout(loop, speed);
+            }
+            loop();
+        };
+    </script>
+</body>
+
+</html>
