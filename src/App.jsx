@@ -1,268 +1,493 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, ExternalLink, Star, Code2, Terminal } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { 
+  Mail, 
+  ExternalLink, 
+  Code2, 
+  User, 
+  Briefcase, 
+  GraduationCap,
+  Building2,
+  ChevronRight, 
+  Menu, 
+  X,
+  Terminal,
+  Cpu,
+  Globe,
+  Calendar
+} from 'lucide-react';
 
-const GithubIcon = ({ size = 24, className = '' }) => (
-  <svg width={size} height={size} className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-    <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+const Github = (props) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
   </svg>
 );
 
-const TwitterIcon = ({ size = 24, className = '' }) => (
-  <svg width={size} height={size} className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+const Linkedin = (props) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect width="4" height="12" x="2" y="9" />
+    <circle cx="4" cy="4" r="2" />
   </svg>
 );
 
-const LinkedinIcon = ({ size = 24, className = '' }) => (
-  <svg width={size} height={size} className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-  </svg>
-);
-import './index.css';
+// --- モックデータ（ご自身の情報に書き換えてください） ---
 
-const extraProjects = [
+const PROFILE = {
+  name: "tankj21",
+  role: "Software Engineer / Frontend Developer",
+  bio: "ユーザー体験を重視したモダンなWebアプリケーションの開発に情熱を注いでいます。ReactやTypeScriptを用いたフロントエンド開発が得意です。",
+  github: "https://github.com/tankj21",
+  linkedin: "https://linkedin.com/in/your-profile", // LinkedInのURL
+  email: "your-email@example.com"
+};
+
+const EXPERIENCE = [
   {
-    name: 'Noctis',
-    description: 'PythonでのDiscordBot開発。公開してません。',
-    html_url: 'https://github.com/tankj21/Noctis',
-    language: 'Python',
-    stargazers_count: 0,
-    isPrivate: true
+    id: 1,
+    role: "フロントエンドエンジニア",
+    company: "株式会社〇〇",
+    period: "2023年4月 - 現在",
+    description: "Reactを用いた自社SaaSプロダクトの開発。UI/UXの改善、パフォーマンスチューニングを担当し、ロード時間を30%削減。"
+  },
+  {
+    id: 2,
+    role: "Webエンジニア（インターン）",
+    company: "△△テクノロジー",
+    period: "2022年8月 - 2023年3月",
+    description: "Next.jsとTypeScriptを使用したコーポレートサイトのリニューアルプロジェクトに参画。レスポンシブ対応やCMS連携を実装。"
   }
 ];
 
-const customImages = {
-  'kabukicho': 'https://github.com/tankj21/kabukicho/blob/main/source/img/kabuki_title.png?raw=true'
-};
+const EDUCATION = [
+  {
+    id: 1,
+    degree: "情報理工学部 情報科学科",
+    school: "〇〇大学",
+    period: "2019年4月 - 2023年3月",
+    description: "計算機科学の基礎、アルゴリズム、データ構造を学ぶ。研究室では機械学習を用いた自然言語処理を専攻。"
+  },
+  {
+    id: 2,
+    degree: "普通科",
+    school: "〇〇県立〇〇高等学校",
+    period: "2016年4月 - 2019年3月",
+    description: "プログラミング部に所属し、競技プログラミングに取り組む。"
+  }
+];
 
-function App() {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
+const SKILLS = [
+  {
+    category: "Frontend",
+    icon: <Globe className="w-6 h-6 mb-4 text-blue-400" />,
+    items: ["React", "TypeScript", "Next.js", "Tailwind CSS", "HTML/CSS"]
+  },
+  {
+    category: "Backend",
+    icon: <Terminal className="w-6 h-6 mb-4 text-green-400" />,
+    items: ["Node.js", "Express", "Python", "REST API", "GraphQL"]
+  },
+  {
+    category: "Tools & Others",
+    icon: <Cpu className="w-6 h-6 mb-4 text-purple-400" />,
+    items: ["Git/GitHub", "Docker", "AWS", "Figma", "Agile/Scrum"]
+  }
+];
+
+const PROJECTS = [
+  {
+    id: 1,
+    title: "E-Commerce プラットフォーム",
+    description: "Next.jsとStripeを使用したフルスタックのECサイト。カート機能から決済処理までを一貫して実装しました。",
+    tags: ["Next.js", "TypeScript", "Tailwind", "Stripe"],
+    githubUrl: "#",
+    liveUrl: "#"
+  },
+  {
+    id: 2,
+    title: "タスク管理アプリケーション",
+    description: "ReactとFirebaseを活用したリアルタイムタスク管理ツール。ドラッグ＆ドロップでのステータス変更に対応。",
+    tags: ["React", "Firebase", "Zustand", "Framer Motion"],
+    githubUrl: "#",
+    liveUrl: "#"
+  },
+  {
+    id: 3,
+    title: "天気予報ダッシュボード",
+    description: "OpenWeather APIを利用し、現在地や指定した都市の天気をグラフィカルに表示するダッシュボード。",
+    tags: ["Vue.js", "Chart.js", "REST API", "CSS Modules"],
+    githubUrl: "#",
+    liveUrl: "#"
+  }
+];
+
+// --- コンポーネント ---
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await fetch('https://api.github.com/users/tankj21/repos?sort=updated');
-        if (!response.ok) throw new Error('Network response was not ok');
-        const repos = await response.json();
-        
-        const publicRepos = repos.filter(repo => !repo.fork);
-        setProjects([...extraProjects, ...publicRepos]);
-      } catch (error) {
-        console.error('Error fetching projects:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProjects();
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
-  };
+  const navLinks = [
+    { name: 'About', href: '#about' },
+    { name: 'History', href: '#history' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Projects', href: '#projects' },
+  ];
 
   return (
-    <>
-      {/* Navigation */}
-      <nav className="navbar">
-        <div className="container nav-content">
-          <a href="#" className="logo">tankj21</a>
-          <div className="nav-links">
-            <a href="#about" className="nav-link">About</a>
-            <a href="#projects" className="nav-link">Projects</a>
-            <a href="#contact" className="nav-link">Contact</a>
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-slate-900/90 backdrop-blur-md py-4 shadow-lg' : 'bg-transparent py-6'}`}>
+      <div className="max-w-6xl mx-auto px-6 md:px-12 flex justify-between items-center">
+        <a href="#" className="text-xl font-bold tracking-tighter text-slate-100 hover:text-blue-400 transition-colors">
+          tankj21<span className="text-blue-500">.dev</span>
+        </a>
+
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center space-x-8">
+          {navLinks.map((link) => (
+            <a key={link.name} href={link.href} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors">
+              {link.name}
+            </a>
+          ))}
+          <div className="flex items-center space-x-4 border-l border-slate-700 pl-6">
+            <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-400 transition-colors">
+              <Github className="w-5 h-5" />
+            </a>
+            <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-400 transition-colors">
+              <Linkedin className="w-5 h-5" />
+            </a>
           </div>
         </div>
-      </nav>
 
-      <main className="container" style={{ paddingTop: '80px' }}>
-        {/* Hero Section */}
-        <section id="hero" className="section">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="flex flex-col items-center text-center"
-          >
-            <motion.img 
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              src="https://avatars.githubusercontent.com/u/69007235?v=4" 
-              alt="tankj21" 
-              className="mb-8"
-              style={{ width: '160px', height: '160px', borderRadius: '50%', border: '4px solid var(--accent-primary)', padding: '4px' }}
-              onError={(e) => { e.target.src = 'https://placehold.co/160x160/4F46E5/FFFFFF?text=tankj21' }}
-            />
-            <h1 className="mb-4">
-              こんにちは <span className="gradient-text">tankj21</span> です。
-            </h1>
-            <p className="text-secondary mb-8" style={{ fontSize: '1.25rem', maxWidth: '600px' }}>
-              I'm a student at International Professional University of Technology in Tokyo.
-            </p>
-            <a href="#projects" className="btn btn-primary">
-              <Code2 size={20} />
-              See the projects!!
+        {/* Mobile Nav Toggle */}
+        <button className="md:hidden text-slate-300" onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? <X /> : <Menu />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden absolute top-full left-0 w-full bg-slate-800 shadow-xl py-6 flex flex-col items-center space-y-6">
+          {navLinks.map((link) => (
+            <a 
+              key={link.name} 
+              href={link.href} 
+              className="text-slate-200 hover:text-blue-400 font-medium text-lg"
+              onClick={() => setIsOpen(false)}
+            >
+              {link.name}
             </a>
-          </motion.div>
-        </section>
+          ))}
+          <div className="flex space-x-6 pt-4 border-t border-slate-700 w-1/2 justify-center">
+            <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-400">
+              <Github className="w-6 h-6" />
+            </a>
+            <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-400">
+              <Linkedin className="w-6 h-6" />
+            </a>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
 
-        {/* About Section */}
-        <section id="about" className="section">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
+const Hero = () => {
+  return (
+    <section id="hero" className="min-h-[80vh] flex flex-col justify-center pt-20">
+      <div className="space-y-6 max-w-3xl">
+        <p className="text-blue-400 font-mono text-lg flex items-center">
+          <Terminal className="w-5 h-5 mr-2" />
+          Hello, world! I am
+        </p>
+        <h1 className="text-5xl md:text-7xl font-extrabold text-slate-100 tracking-tight">
+          {PROFILE.name}
+        </h1>
+        <h2 className="text-3xl md:text-4xl font-bold text-slate-400 mt-2">
+          {PROFILE.role}
+        </h2>
+        <p className="text-lg text-slate-400 leading-relaxed max-w-2xl mt-6">
+          {PROFILE.bio}
+        </p>
+        
+        <div className="flex flex-wrap items-center gap-4 pt-8">
+          <a 
+            href="#projects" 
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors flex items-center"
           >
-            <h2>About Me</h2>
-            <div className="glass-panel" style={{ maxWidth: '800px', margin: '0 auto' }}>
-              <div className="flex gap-4 items-center mb-6">
-                <Terminal size={32} className="gradient-text" />
-                <h3 style={{ fontSize: '1.5rem' }}>Profile</h3>
+            プロジェクトを見る
+            <ChevronRight className="w-4 h-4 ml-2" />
+          </a>
+          <a 
+            href={`mailto:${PROFILE.email}`} 
+            className="px-6 py-3 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white font-medium rounded-lg transition-all flex items-center"
+          >
+            <Mail className="w-4 h-4 mr-2" />
+            連絡する
+          </a>
+          {/* Social Links on Mobile Hero */}
+          <div className="md:hidden flex items-center space-x-4 ml-2">
+             <a href={PROFILE.github} className="p-3 bg-slate-800 rounded-lg text-slate-300 hover:text-blue-400">
+                <Github className="w-5 h-5" />
+             </a>
+             <a href={PROFILE.linkedin} className="p-3 bg-slate-800 rounded-lg text-slate-300 hover:text-blue-400">
+                <Linkedin className="w-5 h-5" />
+             </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const About = () => {
+  return (
+    <section id="about" className="scroll-mt-24">
+      <div className="flex items-center space-x-4 mb-10">
+        <h2 className="text-3xl font-bold text-slate-100 flex items-center">
+          <User className="w-8 h-8 mr-3 text-blue-400" />
+          私について
+        </h2>
+        <div className="h-px bg-slate-700 flex-grow max-w-xs"></div>
+      </div>
+      
+      {/* 画像を削除し、テキストのコンテナを全幅（max-w-3xl）に調整しました */}
+      <div className="max-w-3xl space-y-4 text-slate-400 leading-relaxed">
+        <p>
+          はじめまして。私はWeb技術の進化に常にアンテナを張り、使いやすく美しいUI/UXを実現することを目指しているエンジニアです。
+        </p>
+        <p>
+          プログラミングを始めたきっかけから現在に至るまで、様々な技術スタックに触れてきましたが、特にReactエコシステムを用いたフロントエンド開発において強みを持っています。
+        </p>
+        <p>
+          チームでの開発経験も豊富で、アジャイルな環境でのコミュニケーションや、コードレビューを通じた品質向上にも貢献できます。休日は新しい技術の学習や個人開発に取り組んでいます。
+        </p>
+      </div>
+    </section>
+  );
+};
+
+const HistorySection = () => {
+  return (
+    <section id="history" className="scroll-mt-24">
+      <div className="grid md:grid-cols-2 gap-12">
+        {/* Experience Timeline */}
+        <div>
+          <div className="flex items-center space-x-4 mb-8">
+            <h2 className="text-2xl font-bold text-slate-100 flex items-center">
+              <Briefcase className="w-6 h-6 mr-3 text-blue-400" />
+              職歴
+            </h2>
+          </div>
+          <div className="space-y-8 relative before:absolute before:inset-0 before:ml-2.5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-700 before:to-transparent">
+            {EXPERIENCE.map((job) => (
+              <div key={job.id} className="relative flex items-start group">
+                <div className="absolute left-0 mt-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 border border-blue-500 group-hover:bg-blue-500 transition-colors z-10"></div>
+                <div className="ml-10">
+                  <h3 className="text-xl font-bold text-slate-200">{job.role}</h3>
+                  <div className="flex flex-col sm:flex-row sm:items-center text-sm text-slate-400 mt-1 mb-3 space-y-1 sm:space-y-0 sm:space-x-4">
+                    <span className="flex items-center"><Building2 className="w-4 h-4 mr-1" />{job.company}</span>
+                    <span className="flex items-center"><Calendar className="w-4 h-4 mr-1" />{job.period}</span>
+                  </div>
+                  <p className="text-slate-400 leading-relaxed text-sm">
+                    {job.description}
+                  </p>
+                </div>
               </div>
-              <p className="text-secondary mb-8" style={{ fontSize: '1.1rem' }}>
-                東京国際工科専門職大学 学生 AI戦略コース 在籍中<br/><br/>
-                気分で開発することが多いです。モダンなUIと効率的なバックエンドに興味があります。
-              </p>
-              
-              <h3 className="mb-4" style={{ fontSize: '1.2rem', color: 'var(--text-primary)' }}>Tech Stack</h3>
-              <div className="flex" style={{ flexWrap: 'wrap', gap: '0.75rem' }}>
-                {['Java', 'JavaScript', 'C / C++ / C#', 'Python', 'Node.js', 'React', 'HTML5/CSS3'].map((tech) => (
-                  <span key={tech} className="badge">
-                    {tech}
-                  </span>
-                ))}
+            ))}
+          </div>
+        </div>
+
+        {/* Education Timeline */}
+        <div>
+          <div className="flex items-center space-x-4 mb-8">
+            <h2 className="text-2xl font-bold text-slate-100 flex items-center">
+              <GraduationCap className="w-6 h-6 mr-3 text-blue-400" />
+              学歴
+            </h2>
+          </div>
+          <div className="space-y-8 relative before:absolute before:inset-0 before:ml-2.5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-700 before:to-transparent">
+            {EDUCATION.map((edu) => (
+              <div key={edu.id} className="relative flex items-start group">
+                <div className="absolute left-0 mt-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 border border-purple-500 group-hover:bg-purple-500 transition-colors z-10"></div>
+                <div className="ml-10">
+                  <h3 className="text-xl font-bold text-slate-200">{edu.degree}</h3>
+                  <div className="flex flex-col sm:flex-row sm:items-center text-sm text-slate-400 mt-1 mb-3 space-y-1 sm:space-y-0 sm:space-x-4">
+                    <span className="flex items-center"><Building2 className="w-4 h-4 mr-1" />{edu.school}</span>
+                    <span className="flex items-center"><Calendar className="w-4 h-4 mr-1" />{edu.period}</span>
+                  </div>
+                  <p className="text-slate-400 leading-relaxed text-sm">
+                    {edu.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const SkillsSection = () => {
+  return (
+    <section id="skills" className="scroll-mt-24">
+      <div className="flex items-center space-x-4 mb-10">
+        <h2 className="text-3xl font-bold text-slate-100 flex items-center">
+          <Code2 className="w-8 h-8 mr-3 text-blue-400" />
+          スキルセット
+        </h2>
+        <div className="h-px bg-slate-700 flex-grow max-w-xs"></div>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-8">
+        {SKILLS.map((skillGroup, idx) => (
+          <div key={idx} className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 hover:border-blue-500/50 transition-colors">
+            {skillGroup.icon}
+            <h3 className="text-xl font-bold text-slate-200 mb-4">{skillGroup.category}</h3>
+            <ul className="space-y-2">
+              {skillGroup.items.map((item, i) => (
+                <li key={i} className="flex items-center text-slate-400 before:content-['▹'] before:text-blue-500 before:mr-2">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const ProjectsSection = () => {
+  return (
+    <section id="projects" className="scroll-mt-24">
+      <div className="flex items-center space-x-4 mb-10">
+        <h2 className="text-3xl font-bold text-slate-100 flex items-center">
+          <Code2 className="w-8 h-8 mr-3 text-blue-400" />
+          プロジェクト
+        </h2>
+        <div className="h-px bg-slate-700 flex-grow max-w-xs"></div>
+      </div>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {PROJECTS.map((project) => (
+          <div key={project.id} className="bg-slate-800 border border-slate-700 rounded-xl p-6 flex flex-col h-full hover:-translate-y-2 transition-transform duration-300 hover:shadow-2xl hover:shadow-blue-900/20">
+            <div className="flex justify-between items-start mb-4">
+              <Code2 className="w-10 h-10 text-blue-400" />
+              <div className="flex space-x-3">
+                <a href={project.githubUrl} className="text-slate-400 hover:text-blue-400 transition-colors" title="GitHub">
+                  <Github className="w-5 h-5" />
+                </a>
+                <a href={project.liveUrl} className="text-slate-400 hover:text-blue-400 transition-colors" title="Live Demo">
+                  <ExternalLink className="w-5 h-5" />
+                </a>
               </div>
             </div>
-          </motion.div>
-        </section>
-
-        {/* Projects Section */}
-        <section id="projects" className="section">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <h2>Projects</h2>
             
-            {loading ? (
-              <div className="flex flex-col items-center justify-center py-12">
-                <div className="spinner mb-4"></div>
-                <p className="text-secondary">Loading projects from GitHub...</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {projects.map((repo, i) => {
-                  const imageUrl = customImages[repo.name] || `https://placehold.co/600x400/12121a/6366f1?text=${encodeURIComponent(repo.name)}`;
-                  
-                  return (
-                    <motion.div 
-                      key={repo.name}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.1 }}
-                      className="glass-panel flex flex-col"
-                      style={{ padding: '1.5rem' }}
-                    >
-                      <img 
-                        src={imageUrl} 
-                        alt={repo.name} 
-                        className="card-image"
-                        onError={(e) => { e.target.src = `https://placehold.co/600x400/12121a/6366f1?text=${encodeURIComponent(repo.name)}` }}
-                      />
-                      <div className="flex-grow flex flex-col">
-                        <h3 className="mb-2" style={{ fontSize: '1.25rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={repo.name}>
-                          {repo.name}
-                        </h3>
-                        <p className="text-secondary mb-4 flex-grow" style={{ fontSize: '0.9rem' }}>
-                          {repo.description || '説明がありません。'}
-                        </p>
-                        
-                        <div className="flex gap-2 mb-6" style={{ flexWrap: 'wrap' }}>
-                          {repo.language && (
-                            <span className="badge" style={{ fontSize: '0.75rem', padding: '0.1rem 0.5rem' }}>
-                              {repo.language}
-                            </span>
-                          )}
-                          {!repo.isPrivate && (
-                            <span className="badge flex items-center gap-1" style={{ fontSize: '0.75rem', padding: '0.1rem 0.5rem', background: 'rgba(255,255,255,0.05)', color: 'var(--text-secondary)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                              <Star size={12} />
-                              {repo.stargazers_count}
-                            </span>
-                          )}
-                        </div>
-                        
-                        <div className="flex gap-4 mt-auto">
-                          {repo.homepage && (
-                            <a href={repo.homepage} target="_blank" rel="noreferrer" className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', flex: 1 }}>
-                              <ExternalLink size={16} /> Site
-                            </a>
-                          )}
-                          <a href={repo.html_url} target="_blank" rel="noreferrer" className="btn btn-secondary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', flex: 1 }}>
-                            <GithubIcon size={16} /> GitHub
-                          </a>
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            )}
+            <h3 className="text-xl font-bold text-slate-200 mb-2 group-hover:text-blue-400 transition-colors">
+              {project.title}
+            </h3>
             
-            {!loading && projects.length === 0 && (
-              <p className="text-center text-secondary">公開されているプロジェクトがありません。</p>
-            )}
-          </motion.div>
-        </section>
-
-        {/* Contact Section */}
-        <section id="contact" className="section" style={{ minHeight: '60vh' }}>
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="flex flex-col items-center text-center"
-          >
-            <h2>Get In Touch</h2>
-            <p className="text-secondary mb-8" style={{ maxWidth: '500px' }}>
-              お仕事の依頼、技術的なディスカッション、または単なる挨拶でも、お気軽にご連絡ください。
+            <p className="text-slate-400 text-sm mb-6 flex-grow">
+              {project.description}
             </p>
             
-            <a href="mailto:your-email@example.com" className="btn btn-primary mb-12">
-              <Mail size={20} />
-              Say Hello
-            </a>
-            
-            <div className="flex gap-6">
-              <a href="https://github.com/tankj21" target="_blank" rel="noreferrer" className="text-secondary hover:text-primary transition-colors">
-                <GithubIcon size={32} />
-              </a>
-              <a href="#" target="_blank" rel="noreferrer" className="text-secondary hover:text-primary transition-colors">
-                <TwitterIcon size={32} />
-              </a>
-              <a href="#" target="_blank" rel="noreferrer" className="text-secondary hover:text-primary transition-colors">
-                <LinkedinIcon size={32} />
-              </a>
-            </div>
-          </motion.div>
-        </section>
+            <ul className="flex flex-wrap gap-2 mt-auto">
+              {project.tags.map((tag, i) => (
+                <li key={i} className="text-xs font-mono text-blue-300 bg-blue-900/30 px-2 py-1 rounded-md">
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const Contact = () => {
+  return (
+    <section id="contact" className="scroll-mt-24 text-center max-w-2xl mx-auto py-12">
+      <h2 className="text-3xl font-bold text-slate-100 mb-6">お問い合わせ</h2>
+      <p className="text-slate-400 mb-8 leading-relaxed">
+        現在、新しい機会を探しています。質問がある場合や、ただ挨拶したいだけの場合でも、お気軽にご連絡ください。できる限り早く返信いたします。
+      </p>
+      <a 
+        href={`mailto:${PROFILE.email}`}
+        className="inline-flex items-center px-8 py-4 border border-blue-500 text-blue-400 hover:bg-blue-500/10 font-medium rounded-lg transition-all"
+      >
+        <Mail className="w-5 h-5 mr-2" />
+        メッセージを送る
+      </a>
+    </section>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer className="border-t border-slate-800 py-8 mt-20">
+      <div className="max-w-6xl mx-auto px-6 flex flex-col items-center">
+        <div className="flex space-x-6 mb-4">
+          <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-400 transition-colors">
+            <Github className="w-6 h-6" />
+          </a>
+          <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-400 transition-colors">
+            <Linkedin className="w-6 h-6" />
+          </a>
+        </div>
+        <p className="text-slate-500 text-sm font-mono">
+          Designed & Built by {PROFILE.name}
+        </p>
+        <p className="text-slate-600 text-xs mt-2">
+          © {new Date().getFullYear()} All rights reserved.
+        </p>
+      </div>
+    </footer>
+  );
+};
+
+export default function App() {
+  return (
+    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-blue-500/30">
+      <Navbar />
+      <main className="max-w-6xl mx-auto px-6 py-12 space-y-32">
+        <Hero />
+        <About />
+        <HistorySection />
+        <SkillsSection />
+        <ProjectsSection />
+        <Contact />
       </main>
-
-      <footer className="text-center text-secondary py-8" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <p>&copy; {new Date().getFullYear()} tankj21. All rights reserved.</p>
-        <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>Built with React & Framer Motion</p>
-      </footer>
-    </>
+      <Footer />
+    </div>
   );
 }
-
-export default App;
